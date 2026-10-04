@@ -17,8 +17,14 @@ jobs:
         run: |
           make
 
+      - name: Create App Bundle
+        run: |
+          mkdir -p WiiStream
+          cp boot.dol WiiStream/
+          cp meta.xml WiiStream/
+
       - name: Upload Wii App Artifact
         uses: actions/upload-artifact@v4
         with:
           name: WiiStream-App
-          path: boot.dol
+          path: WiiStream/
