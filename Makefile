@@ -6,12 +6,11 @@ TARGET      := boot
 BUILD       := build
 SOURCES     := .
 DATA        := 
-INCLUDES    := 
 
-CFLAGS      := -g -O2 -Wall $(FEAT_FLAGS)
+CFLAGS      := -g -O2 -Wall $(FEAT_FLAGS) -I$(DEVKITPRO)/libogc/include
 CXXFLAGS    := $(CFLAGS)
 
-LDFLAGS     := -g $(FEAT_FLAGS)
+LDFLAGS     := -g $(FEAT_FLAGS) -L$(DEVKITPRO)/libogc/lib/wii
 LIBS        := -lwiiuse -lbte -logc -lm
 
 ifneq ($(BUILD),$(canonical_build))
