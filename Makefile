@@ -1,5 +1,3 @@
-ifneq ($(BUILD),$(canonical_build))
-
 include $(DEVKITPPC)/wii_rules
 
 TARGET      := boot
@@ -7,11 +5,13 @@ BUILD       := build
 SOURCES     := .
 DATA        := 
 
-CFLAGS      := -g -O2 -Wall -mrvl -mcpu=750 -meabi -mhard-float -I$(DEVKITPRO)/libogc/include
+CFLAGS      := -g -O2 -Wall $(MACHDEP) -I$(DEVKITPRO)/libogc/include
 CXXFLAGS    := $(CFLAGS)
 
-LDFLAGS     := -g -mrvl -mcpu=750 -meabi -mhard-float -L$(DEVKITPRO)/libogc/lib/wii
+LDFLAGS     := -g $(MACHDEP) -L$(DEVKITPRO)/libogc/lib/wii
 LIBS        := -lwiiuse -lbte -logc -lm
+
+ifneq ($(BUILD),$(canonical_build))
 
 export OUTPUT   := $(CURDIR)/$(TARGET)
 export VPATH    := $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
@@ -30,16 +30,10 @@ $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 
 $(BUILD)/%.o: %.c
-	@echo "Compilando $<..."
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OUTPUT).elf: $(OBJS)
-	@echo "Enlazando ELF..."
 	$(LD) $(LDFLAGS) $(OBJS) $(LIBS) -o $@
-
-$(OUTPUT).dol: $(OUTPUT).elf
-	@echo "Convertidor ELF a DOL..."
-	elf2dol $< $@
 
 clean:
 	rm -rf $(BUILD) $(TARGET).elf $(TARGET).dol
