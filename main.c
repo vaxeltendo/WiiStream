@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <gccore.h>
 #include <wiiuse/wpad.h>
 #include "network.h"
@@ -13,7 +14,7 @@ void init_graphics() {
     WPAD_Init();
     rmode = VIDEO_GetPreferredMode(NULL);
     xfb = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
-    CONSOLE_Init(xfb, 20, 20, rmode->fbWidth, rmode->xfbHeight, rmode->fbWidth * VI_DISPLAY_PIX_SZ);
+    CON_Init(xfb, 20, 20, rmode->fbWidth, rmode->xfbHeight, rmode->fbWidth * VI_DISPLAY_PIX_SZ);
     VIDEO_Configure(rmode);
     VIDEO_SetNextFramebuffer(xfb);
     VIDEO_SetBlack(FALSE);
@@ -36,15 +37,14 @@ int main(int argc, char **argv) {
         char response[2048];
         memset(response, 0, sizeof(response));
 
-        // Peticion HTTP GET a tu servidor Replit
         int bytes = http_get("python-flask-server-varguandz.replit.app", 80, "/api/movies", response, sizeof(response));
 
         if (bytes > 0) {
             printf("\n--- CATALOGO RECIBIDO (%d bytes) ---\n\n", bytes);
-            response[600] = '\0'; // Limitar texto en pantalla
+            response[600] = '\0';
             printf("%s\n", response);
         } else {
-            printf("\nError al conectar con Replit (asegurate de dar 'Run' en Replit).\n");
+            printf("\nError al conectar con Replit.\n");
         }
     } else {
         printf("Error: No se pudo conectar a la red local.\n");
