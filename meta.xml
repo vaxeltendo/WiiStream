@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<app version="1">
+	<name>WiiStream</name>
+	<coder>vaxeltendo</coder>
+	<version>0.1</version>
+	<release_date>20261003</release_date>
+	<short_description>Netflix-style app for Wii</short_description>
+	<long_description>A homebrew client to stream Internet Archive content on Nintendo Wii.</long_description>
+</app>
